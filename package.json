@@ -1,0 +1,17 @@
+{
+  "name": "amqp-playground",
+  "version": "1.0.0",
+  "description": "adventures in AMP and AMQP",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.xunn.io/Xunnamius/amqp-playground"
+  },
+  "author": "Xunnamius",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.4.2"
+  }
+}
