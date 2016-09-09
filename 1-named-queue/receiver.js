@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 const queue = 'test-queue';
-let amqp = require('amqplib/callback_api');
+const amqp = require('amqplib/callback_api');
 
-amqp.connect('amqp://localhost', (err, conn) =>
+amqp.connect('amqp://root:root@localhost', (err, conn) =>
 {
     if(err)
         console.error('CONN ERROR:', err);
