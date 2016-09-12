@@ -29,7 +29,7 @@ Q.spawn(function*()
         let output = (new Date()).toString();
         let opts = { headers: { 'type': 'request', 'appId': 'test' }};
 
-        yield Q.nbind(chan.publish(XCHANGE, '', Buffer.from(output), opts));
+        yield Q.nbind(chan.publish(XCHANGE, '', Buffer.from(output), opts)); // (do confirmations asynchronously)
         console.log(`[x] Published item "${output}" to <${XCHANGE} : ${JSON.stringify(opts)}>`);
         
         yield Q.delay(500);
