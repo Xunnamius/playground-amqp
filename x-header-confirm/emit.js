@@ -27,16 +27,9 @@ Q.spawn(function*()
     for(let count=0;; count=++count%3)
     {
         let output = (new Date()).toString();
-        let opts = { headers: { 'type': 'request', 'appId': 'test2' }};
+        let opts = { headers: { 'type': 'request', 'appId': 'test' }};
 
-        chan.publish(XCHANGE, '', Buffer.from(output), opts, (err, ok) =>
-        {
-            if (err !== null)
-                console.warn('[xx] Message nacked!');
-            else
-                console.log(`[xx] Message acked <${ok}}>`);
-        });
-
+        yield Q.nbind(chan.publish(XCHANGE, '', Buffer.from(output), opts));
         console.log(`[x] Published item "${output}" to <${XCHANGE} : ${JSON.stringify(opts)}>`);
         
         yield Q.delay(500);
