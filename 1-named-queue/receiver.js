@@ -1,9 +1,10 @@
 #!/usr/bin/env node
+"use strict";
 
 const queue = 'test-queue';
-const amqp = require('amqplib/callback_api');
+const amqp = require('amqplib');
 
-amqp.connect('amqp://root:root@localhost', (err, conn) =>
+/*amqp.connect('amqp://root:root@localhost', (err, conn) =>
 {
     if(err)
         console.error('CONN ERROR:', err);
@@ -26,4 +27,22 @@ amqp.connect('amqp://root:root@localhost', (err, conn) =>
             }
         });
     }
+});
+*/
+amqp.connect('amqp://root:root@localhost').then((conn) =>
+{
+    conn.createChannel().then((channel) => 
+    {
+        channel.assertQueue(queue, { durable: false });
+        console.log('[*] Waiting for incoming...');
+        channel.consume(queue, (msg) => 
+        {
+            console.info(`[x] Received message "${msg.content.toString()}"`);
+        }, { noAck: true });
+    }).catch((err) => {
+        console.error(err);
+    });
+
+}).catch((err) => {
+    console.error(err);
 });

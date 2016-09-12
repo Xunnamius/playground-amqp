@@ -1,23 +1,23 @@
 #!/usr/bin/env node
 
 const Q      = require('q');
-const Broker = require('amqplib/callback_api');
+const Broker = require('amqplib');
 const uuid   = require('node-uuid');
 const Rx     = require('rx');
 
 Rx.Node = require('rx-node');
 
-const XCHANGE = 'direct-exchange';
+const XCHANGE = 'topic-exchange';
 const WORKER_ID = uuid.v4();
 const WORKER_SHORT_ID = WORKER_ID.substr(0, 4);
 
 Q.spawn(function*() {
-    let conn = yield Q.nfcall(Broker.connect, 'amqp://root:root@localhost');
-    let chan = yield Q.nbind(conn.createChannel, conn)();
+    let conn = yield Broker.connect('amqp://root:root@localhost');
+    let chan = yield conn.createChannel();
 
-    chan.assertExchange(XCHANGE, 'direct', { durable: false });
+    chan.assertExchange(XCHANGE, 'topic', { durable: false });
 
-    let q = yield Q.nbind(chan.assertQueue, chan)('', { exclusive: true });
+    let q = yield chan.assertQueue('', { exclusive: true });
     
     process.argv.slice(2).forEach((val) =>
     {
@@ -30,7 +30,7 @@ Q.spawn(function*() {
     chan.consume(q.queue, (msg) =>
     {
         console.info(`[x](${WORKER_SHORT_ID}) Received pub "${msg.content.toString()}"`);
-        chan.ack(msg);
+        chan.reject(msg, false);
     });
 });
 

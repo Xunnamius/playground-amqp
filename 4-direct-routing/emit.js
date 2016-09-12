@@ -3,11 +3,11 @@
 const XCHANGE = 'direct-exchange';
 
 const Q      = require('q');
-const Broker = require('amqplib/callback_api');
+const Broker = require('amqplib');
 
 Q.spawn(function*() {
-    let conn = yield Q.nfcall(Broker.connect, 'amqp://root:root@localhost');
-    let chan = yield Q.nbind(conn.createChannel, conn)();
+    let conn = yield Broker.connect('amqp://root:root@localhost');
+    let chan = yield conn.createChannel();
 
     chan.assertExchange(XCHANGE, 'direct', { durable: false });
 

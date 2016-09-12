@@ -6,7 +6,7 @@ const Broker = require('amqplib/callback_api');
 const Rx = require('rx');
 Rx.Node = require('rx-node');
 
-Broker.connect('amqp://localhost', (err, conn) =>
+Broker.connect('amqp://root:root@localhost', (err, conn) =>
 {
     if(err)
         console.error('CONN ERROR:', err);
