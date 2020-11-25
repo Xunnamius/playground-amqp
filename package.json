@@ -12,7 +12,7 @@
   "author": "Xunnamius",
   "license": "ISC",
   "dependencies": {
-    "amqplib": "^0.4.2",
+    "amqplib": "^0.6.0",
     "node-uuid": "^1.4.7",
     "q": "^1.4.1",
     "rx-node": "^1.0.2",
